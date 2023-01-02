@@ -24,12 +24,22 @@ typedef struct {
   int width;
   int height;
 
-  cell_t* start;
   cell_t* end;
 
 
 
 } grid_t;
+
+static int prepare_pathfinding(grid_t* grid) {
+  for (int i = 0; i < grid->width * grid->height; ++i) {
+    grid->cells[i].visited = 0;
+    grid->cells[i].parent = 0;
+  }
+  grid->queue_front = 0;
+  grid->queue_rear = 0;
+  grid->queue_size = 0;
+
+}
 
 static int init_grid(grid_t* grid, int grid_width, int grid_height) {
   grid->cells = malloc(sizeof(cell_t) * grid_width * grid_height);
@@ -108,14 +118,18 @@ explore_neighbour(grid_t* grid, cell_t* parent, cell_t* cell) {
 }
 
 
-static void bfs(grid_t* grid) {
-
+static int bfs(grid_t* grid, cell_t* start_cell) {
+  // reset statuses
   
+  prepare_pathfinding(grid);
+
+ 
+ 
   // put starting cell into queue
   // we don't care about error checking here; 
   // it will crash expectedly if null is returned.
-  grid->start->visited = 1;
-  *enqueue_cell(grid) = grid->start;
+  start_cell->visited = 1;
+  *enqueue_cell(grid) = start_cell;
 
   // while the queue is not empty
   while(grid->queue_size != 0) {
@@ -124,14 +138,17 @@ static void bfs(grid_t* grid) {
     //printf("exploring (%p)(%c): %d %d\n", cur_cell, cur_cell->value, cur_cell->row, cur_cell->col);
 
     if (cur_cell == grid->end) {
-      printf("bfs done!\n");
-      return;
-      // End the loop here
-      //return cur_cell;
+      // count path
+      cell_t* itr = grid->end;
+      int count = 0;
+      while(itr != 0) {
+        itr = itr->parent; 
+        count++;
+      }
+      return count;
     }
     else 
     {
-
       explore_neighbour(grid, cur_cell, get_grid_cell(grid, cur_cell->row-1, cur_cell->col));
       explore_neighbour(grid, cur_cell, get_grid_cell(grid, cur_cell->row+1, cur_cell->col));
       explore_neighbour(grid, cur_cell, get_grid_cell(grid, cur_cell->row, cur_cell->col-1));
@@ -139,7 +156,8 @@ static void bfs(grid_t* grid) {
     }
 
   }
-  printf("bfs died\n");
+
+  return 0;
 
 }
 
@@ -191,7 +209,6 @@ int main() {
           if (cell) {
             cell->visited = 0;
             if (buffer[col] == 'S') {
-              grid.start = cell;
               cell->value = 'a';
             }
             if (buffer[col] == 'E') {
@@ -211,53 +228,10 @@ int main() {
         }
       }
     
+
+
 #if 0
-      // Test queue
-
-      cell_t ** c = 0;
-      c = enqueue_cell(&grid), *c = grid.cells + 0;
-      printf("queue: %d %d\n", grid.queue_front, grid.queue_rear);
-      c = enqueue_cell(&grid), *c = grid.cells + 1;
-      printf("queue: %d %d\n", grid.queue_front, grid.queue_rear);
-      c = enqueue_cell(&grid), *c = grid.cells + 2;
-      printf("queue: %d %d\n", grid.queue_front, grid.queue_rear);
-      c = enqueue_cell(&grid), *c = grid.cells + 3;
-      printf("queue: %d %d\n", grid.queue_front, grid.queue_rear);
-      c = enqueue_cell(&grid), *c = grid.cells + 4;
-      printf("queue: %d %d\n", grid.queue_front, grid.queue_rear);
-
-
-      c = dequeue_cell(&grid);
-      printf("%c\n", (*c)->value);
-      c = dequeue_cell(&grid);
-      printf("%c\n", (*c)->value);
-      c = dequeue_cell(&grid);
-      printf("%c\n", (*c)->value);
-      c = dequeue_cell(&grid);
-      printf("%c\n", (*c)->value);
-      c = dequeue_cell(&grid);
-      printf("%c\n", (*c)->value);
-
-      c = enqueue_cell(&grid), *c = grid.cells + 0;
-      printf("queue: %d %d\n", grid.queue_front, grid.queue_rear);
-      c = enqueue_cell(&grid), *c = grid.cells + 1;
-      printf("queue: %d %d\n", grid.queue_front, grid.queue_rear);
-      c = enqueue_cell(&grid), *c = grid.cells + 2;
-      printf("queue: %d %d\n", grid.queue_front, grid.queue_rear);
-      c = dequeue_cell(&grid);
-      printf("%c\n", (*c)->value);
-      c = dequeue_cell(&grid);
-      printf("%c\n", (*c)->value);
-      c = dequeue_cell(&grid);
-      printf("%c\n", (*c)->value);
-#endif
-
-
-
-
-      bfs(&grid);
-#if 0
-      // print
+      // print explored paths and their parents
       for (int r = 0; r < grid.height; ++r) {
         for (int c = 0; c < grid.width; ++c) {
           cell_t *cell = get_grid_cell(&grid,r,c);
@@ -272,20 +246,25 @@ int main() {
         printf("\n");
       }
 #endif
-#if 1
-      // print path
+      int shortest_steps = grid.width * grid.height;
+      for (int i = 0; i < grid.width * grid.height; ++i) 
       {
-        cell_t* cell = grid.end;
-        int count = 0;
-        while(cell != 0) {
-          ////printf("%c: %d %d\n", cell->value, cell->row, cell->col);
-          cell = cell->parent; 
-          count ++;
+        cell_t* cell = grid.cells + i;
+        if (cell->value == 'a') 
+        {
+          int steps = bfs(&grid, cell);
+          if (steps != 0) 
+          {
+            printf("steps found: %d\n", steps);
+            if (shortest_steps > steps) 
+            {
+              shortest_steps = steps;
+            }
+          }
         }
-        printf("%d steps!\n", count-1);
-
-      }
-#endif
+      } 
+      printf("shortest steps: %d\n", shortest_steps-1);
+      
 
       free_grid(&grid);
     }
@@ -301,3 +280,8 @@ int main() {
 
   }
 }
+
+
+
+
+
