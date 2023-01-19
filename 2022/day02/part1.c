@@ -5,7 +5,6 @@
 
 // We should really really do a nested switch case
 // for this question but using numbers is fun.
-
 int calc_score(int lhs, int rhs) {
   if (lhs == 0) {
     if (rhs == 0) return 3;

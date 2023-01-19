@@ -2,7 +2,7 @@
 #include <string.h>
 // https://adventofcode.com/2022/day/3
 
-int str_len(const char* str ) {
+int cstr_len(const char* str ) {
   // common strlen that counts what I care
   int ret = 0;
   while(*str >= 'a' && *str <= 'z' ||
