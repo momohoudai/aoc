@@ -11,7 +11,7 @@ d3_get_priority(char c) {
   return 0;
 }
 
-static u32_t
+static void 
 d3a(const char* filename) {
   u32_t score = 0;
   FILE* fp = fopen(filename, "r");
@@ -50,16 +50,12 @@ found:
     }
 
     //printf("sum: %d\n", sum);
-
-
+    printf("%d", score);
     fclose(fp);
   }
-
-
-  return score;
 }
 
-static u32_t
+static void 
 d3b(const char* filename) 
 {
   u32_t score = 0;
@@ -104,12 +100,9 @@ found:
 
 finished:
 
-    //printf("sum is %d\n", score);
+    printf("%d", score);
     fclose(fp);
   }
-
-  return score;
-
 
 
 }

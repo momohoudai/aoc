@@ -24,7 +24,7 @@ d2_calc_score(u32_t lhs, int rhs) {
   return 0;
 }
 
-static u32_t
+static void
 d2a(const char* filename) 
 {
   u32_t score = 0;
@@ -61,16 +61,16 @@ d2a(const char* filename)
 
     //printf("Total score: %d\n", score);
 
+    printf("%d", score);
 
     fclose(fp);
   }
 
-  return score;
 
 }
 
 
-static u32_t 
+static void 
 d2b(const char* filename) 
 {
   u32_t score = 0;
@@ -128,12 +128,11 @@ d2b(const char* filename)
     }
 
     //printf("Total score: %d\n", score);
-
+    printf("%d", score);
 
     fclose(fp);
   }
 
-  return score;
 
 
 }

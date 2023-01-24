@@ -2,7 +2,7 @@
 
 
 
-static u32_t 
+static void 
 d1a(const char* filename) 
 {
   u32_t max = 0;
@@ -26,7 +26,7 @@ d1a(const char* filename)
     }
 
     //printf("fattest elf: %d\n", max);
+    printf("%d", max);
     fclose(fp);
   }
-  return max;
 }

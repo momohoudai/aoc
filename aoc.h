@@ -16,6 +16,10 @@ typedef uint32_t b32_t;
 #define true 1
 #define false 0
 
+static b32_t
+is_whitespace(char c) {
+  return c == ' ' || c == '\n' || c == '\r';
+}
 
 
 static b32_t 
@@ -60,6 +64,14 @@ cstr_to_u32(const char* str) {
   return ret;
 }
 
+static void 
+cstr_copy(char* dest, const char* src, u32_t start, u32_t ope) {
+  u32_t j = 0;
+  for(u32_t i = start; i < ope; ++i, ++j) {
+    dest[j] = src[i];
+  }
+  dest[j] = 0;
+}
 static u32_t 
 cstr_len_ext(const char* str, b32_t (*pred)(char))
 {
@@ -131,5 +143,9 @@ tokenizer_get_next_u32(tokenizer_t* t) {
 #include "aoc_d3.h"
 #include "aoc_d4.h"
 #include "aoc_d5.h"
+#include "aoc_d6.h"
+#include "aoc_d7.h"
+#include "aoc_d8.h"
+#include "aoc_d9.h"
 
 

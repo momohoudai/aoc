@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/4
 
-static u32_t
+static void
 d4a(const char* filename) {
 
   u32_t overlapping_pairs =  0;; 
@@ -31,14 +31,12 @@ d4a(const char* filename) {
 
 
     }
-    //printf("Overlapping pairs: %d\n", overlapping_pairs);
+    printf("%d", overlapping_pairs);
     fclose(fp);
   }
-
-  return overlapping_pairs;
 }
 
-static u32_t
+static void
 d4b(const char* filename) {
 
   u32_t overlapping_pairs =  0;; 
@@ -70,10 +68,10 @@ d4b(const char* filename) {
     }
 
     //printf("Overlapping pairs: %d\n", overlapping_pairs);
+    printf("%d", overlapping_pairs);
     fclose(fp);
   }
 
-  return overlapping_pairs;
 
 
 }
