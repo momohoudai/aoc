@@ -24,5 +24,7 @@ int main() {
   solve(d8a, "input_d8");
   solve(d8b, "input_d8");
   solve(d9a, "input_d9");
-
+  solve(d9b, "input_d9");
+  solve(d10a, "input_d10");
+  solve(d10b, "input_d10");
 }

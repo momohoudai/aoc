@@ -12,9 +12,20 @@ typedef int32_t s32_t;
 typedef uint32_t u32_t;
 typedef uint32_t b32_t;
 
+typedef struct {
+  u32_t x;
+  u32_t y;
+} v2u_t;
+
+typedef struct {
+  s32_t x;
+  s32_t y;
+} v2s_t;
+
 #define array_count(a) sizeof(a)/sizeof(*a)
 #define true 1
 #define false 0
+#define abs_of(x) (((x) < 0) ? -(x) : (x))
 
 static b32_t
 is_whitespace(char c) {
@@ -147,5 +158,5 @@ tokenizer_get_next_u32(tokenizer_t* t) {
 #include "aoc_d7.h"
 #include "aoc_d8.h"
 #include "aoc_d9.h"
-
+#include "aoc_d10.h"
 
