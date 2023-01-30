@@ -5,7 +5,7 @@ typedef enum {
 } d10_op_type_t;
 
 typedef struct {
-  int value; 
+  s32_t value; 
 } d10_op_addx_t;
 
 typedef struct {} d10_op_noop_t;
@@ -21,10 +21,10 @@ typedef struct {
 
 
 // will not fail
-static int 
-parse_int(const char* str) {
-  int ret = 0;
-  int is_neg = (str[0] == '-') ? 1 : 0;
+static s32_t 
+d10_parse_s32(const char* str) {
+  s32_t ret = 0;
+  s32_t is_neg = (str[0] == '-') ? 1 : 0;
 
   if (is_neg) ++str;
 
@@ -37,12 +37,12 @@ parse_int(const char* str) {
 }
 
 static d10_op_t
-parse_op(const char* str) {
+d10_parse_op(const char* str) {
   d10_op_t ret;
   // Cheap way to parse
   if (str[0] == 'a') {
     ret.type = D10_OP_ADDX;
-    ret.addx.value = parse_int(str + 5);
+    ret.addx.value = d10_parse_s32(str + 5);
     ret.life = 2;
   }
   else if (str[0] == 'n') {
@@ -90,7 +90,7 @@ d10a(const char* filename) {
       else {
         if(fgets(buffer, sizeof(buffer), fp))
         {
-          current_op = parse_op(buffer);
+          current_op = d10_parse_op(buffer);
           if (current_op.type == D10_OP_ADDX) {
             is_busy = 1;
           }
@@ -141,7 +141,7 @@ d10b(const char* filename) {
       {
         if(fgets(buffer, sizeof(buffer), fp))
         {
-          current_op = parse_op(buffer);
+          current_op = d10_parse_op(buffer);
 
 #if 0 
           printf("Line  #%d: %3d", line++, current_op.type);
