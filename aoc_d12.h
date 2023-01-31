@@ -119,7 +119,7 @@ d12a_bfs(d12_grid_t* grid) {
     //printf("exploring (%p)(%c): %d %d\n", cur_cell, cur_cell->value, cur_cell->row, cur_cell->col);
 
     if (cur_cell == grid->end) {
-      printf("d12_bfs done!\n");
+      //printf("d12_bfs done!\n");
       return;
       // End the loop here
       //return cur_cell;
@@ -134,7 +134,7 @@ d12a_bfs(d12_grid_t* grid) {
     }
 
   }
-  printf("d12_bfs died\n");
+  //printf("d12_bfs died\n");
 
 }
 static s32_t 
@@ -225,7 +225,7 @@ d12a(const char* filename) {
         }
         ++grid_height;
       }
-      printf("grid dims: %d %d\n", grid_width, grid_height);
+      //printf("grid dims: %d %d\n", grid_width, grid_height);
     }
     fseek(fp, 0, SEEK_SET);
 
@@ -331,7 +331,7 @@ d12a(const char* filename) {
           cell = cell->parent; 
           count ++;
         }
-        printf("%d steps!\n", count-1);
+        printf("%d", count-1);
 
       }
 #endif
@@ -339,7 +339,7 @@ d12a(const char* filename) {
       d12_free_grid(&grid);
     }
     else {
-      printf("Cannot init grid\n");
+      printf("Cannot init grid");
     }
 
     
@@ -439,7 +439,7 @@ d12b(const char* filename) {
           s32_t steps = d12b_bfs(&grid, cell);
           if (steps != 0) 
           {
-            printf("steps found: %d\n", steps);
+            //printf("steps found: %d\n", steps);
             if (shortest_steps > steps) 
             {
               shortest_steps = steps;
@@ -447,7 +447,7 @@ d12b(const char* filename) {
           }
         }
       } 
-      printf("shortest steps: %d\n", shortest_steps-1);
+      printf("%d", shortest_steps-1);
       
 
       d12_free_grid(&grid);

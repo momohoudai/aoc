@@ -159,4 +159,5 @@ tokenizer_get_next_u32(tokenizer_t* t) {
 #include "aoc_d8.h"
 #include "aoc_d9.h"
 #include "aoc_d10.h"
-
+#include "aoc_d11.h"
+#include "aoc_d12.h"
